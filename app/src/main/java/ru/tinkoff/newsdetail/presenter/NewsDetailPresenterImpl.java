@@ -38,6 +38,7 @@ public class NewsDetailPresenterImpl implements NewsDetailPresenter {
 
     @Override
     public void detachView() {
+        mCompositeDisposable.dispose();
         mView = null;
     }
 
