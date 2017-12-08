@@ -12,6 +12,7 @@ import ru.tinkoff.data.ErrorPresenter;
 import ru.tinkoff.newslist.domain.interactor.NewsListInteractor;
 import ru.tinkoff.newslist.domain.model.NewsListResponse;
 import ru.tinkoff.newslist.domain.repository.NewsListRepository;
+import ru.tinkoff.newslist.router.NewsListRouter;
 import ru.tinkoff.newslist.view.NewsListView;
 
 /**
@@ -24,14 +25,17 @@ public class NewsListPresenterImpl implements NewsListPresenter {
     private final ErrorPresenter mErrorPresenter;
     private NewsListView mView;
     private NewsListRepository mRepository;
+    private NewsListRouter mRouter;
     private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
     public NewsListPresenterImpl(NewsListInteractor interactor,
                                  NewsListRepository repository,
+                                 NewsListRouter router,
                                  ErrorPresenter errorPresenter) {
         mInteractor = interactor;
         mErrorPresenter = errorPresenter;
         mRepository = repository;
+        mRouter = router;
     }
 
     @Override
@@ -100,6 +104,11 @@ public class NewsListPresenterImpl implements NewsListPresenter {
                     mView.toast(mErrorPresenter.present(throwable));
                     mView.hideRefresh();
                 }));
+    }
+
+    @Override
+    public void onItemClicked(int newsId) {
+        mRouter.openDetailPage(newsId);
     }
 
     private void onFreshNewsLoaded(List<NewsListResponse.NewsListItem> itemList) {

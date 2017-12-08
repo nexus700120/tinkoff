@@ -36,6 +36,7 @@ public class NewsListRepositoryImpl implements NewsListRepository {
         List<NewsItem> dbItemList = new ArrayList<>();
         for (NewsListResponse.NewsListItem item : itemList) {
             NewsItem dbItem = new NewsItem();
+            dbItem.id = item.id;
             dbItem.date = item.date.timestamp;
             dbItem.text = item.text;
             dbItemList.add(dbItem);

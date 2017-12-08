@@ -12,16 +12,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.List;
 
 import ru.tinkoff.App;
 import ru.tinkoff.R;
 import ru.tinkoff.data.ErrorPresenterImpl;
 import ru.tinkoff.newslist.data.NewsListInteractorImpl;
+import ru.tinkoff.newslist.data.OpenDetailPageEvent;
 import ru.tinkoff.newslist.data.repository.NewsListRepositoryImpl;
 import ru.tinkoff.newslist.domain.model.NewsListResponse;
 import ru.tinkoff.newslist.presenter.NewsListPresenter;
 import ru.tinkoff.newslist.presenter.NewsListPresenterImpl;
+import ru.tinkoff.newslist.router.NewsListRouterImpl;
 import ru.tinkoff.widget.ProgressView;
 
 /**
@@ -33,7 +38,9 @@ public class NewsListFragmnet extends Fragment implements NewsListView {
     private final NewsListPresenter mPresenter = new NewsListPresenterImpl(
             new NewsListInteractorImpl(),
             new NewsListRepositoryImpl(),
+            new NewsListRouterImpl(this),
             new ErrorPresenterImpl(App.getAppContext()));
+
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private ProgressView mProgressView;
@@ -56,6 +63,23 @@ public class NewsListFragmnet extends Fragment implements NewsListView {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         mRecyclerView.setAdapter(new NewsListAdapter());
         mPresenter.attachView(this);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+    @Subscribe
+    public void onItemClicked(OpenDetailPageEvent event) {
+        mPresenter.onItemClicked(event.getItem().id);
     }
 
     @Override

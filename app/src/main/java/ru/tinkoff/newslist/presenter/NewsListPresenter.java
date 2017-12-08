@@ -12,4 +12,5 @@ public interface NewsListPresenter {
     void onViewStateRestored();
     void onRetry();
     void refresh();
+    void onItemClicked(int newsId);
 }

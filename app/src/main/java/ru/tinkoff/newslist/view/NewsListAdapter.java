@@ -7,9 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 
 import ru.tinkoff.R;
+import ru.tinkoff.newslist.data.OpenDetailPageEvent;
 import ru.tinkoff.newslist.domain.model.NewsListResponse;
 import ru.tinkoff.util.DateFormatter;
 
@@ -59,6 +62,8 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsLi
             if (item.date != null) {
                 mDateView.setText(DateFormatter.formatTimeStamp(item.date.timestamp));
             }
+            itemView.setOnClickListener(view ->
+                    EventBus.getDefault().post(new OpenDetailPageEvent(item)));
         }
     }
 }

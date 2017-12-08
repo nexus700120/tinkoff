@@ -5,12 +5,12 @@ import android.os.Bundle;
 
 import ru.tinkoff.newslist.view.NewsListFragmnet;
 
-public class MainActivity extends AppCompatActivity {
+public class NewsListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_container);
 
         if (savedInstanceState != null) {
             return;
