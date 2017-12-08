@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="common.retry">Повторить</string>
+    <string name="common.error.unknown">Возникла непредвиденная ошибка.</string>
+    <string name="common.error.internet">Не удалось получить данные. Проверьте ваше интернет подключение.</string>
+</resources>
